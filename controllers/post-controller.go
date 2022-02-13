@@ -11,10 +11,6 @@ import (
 	"github.com/riad-safowan/GOLang-SQL/utils"
 )
 
-var (
-	NewPost models.Post
-)
-
 func GetPosts(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("get all post called")
 	posts := models.GetAllPosts()

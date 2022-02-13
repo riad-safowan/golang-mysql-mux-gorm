@@ -11,6 +11,7 @@ import (
 func main() {
 	r := mux.NewRouter()
 	routes.RegisterPostRoutes(r)
+	routes.RegisterCommentRoutes(r)
 	http.Handle("/", r)
 	log.Fatal(http.ListenAndServe("192.168.31.215:9090", r))
 
