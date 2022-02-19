@@ -5,11 +5,11 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/riad-safowan/GOLang-SQL/controllers"
-	// "github.com/riad-safowan/GOLang-SQL/middleware"
+	"github.com/riad-safowan/GOLang-SQL/middleware"
 )
 
 var RegisterAuthRoutes = func(router *mux.Router) {
-	router.HandleFunc("/users/signup", controllers.Signup).Methods("POST")
+	router.HandleFunc("/users/signup", controllers.SignUp).Methods("POST")
 	router.HandleFunc("/users/login", controllers.Login).Methods("POST")
 }
 
@@ -36,8 +36,9 @@ var RegisterCommentRoutes = func(router *mux.Router) {
 	router.HandleFunc("/comment/{id}", controllers.DeleteCommentByID).Methods("DELETE")
 }
 
-var RegisterImageUpload = func (router *mux.Router)  {
+var RegisterImageUpload = func(router *mux.Router) {
 	router.HandleFunc("/upload/image", controllers.UploadImage).Methods("POST")
+	router.HandleFunc("/upload/profileimage", middleware.Authenticate(controllers.UpdateProfilePicture)).Methods("POST")
 	router.HandleFunc("/images/{name}", controllers.Image).Methods("GET")
 	// router.Handle("/images/", http.StripPrefix("/images/", http.FileServer(http.Dir("./images"))))
 }

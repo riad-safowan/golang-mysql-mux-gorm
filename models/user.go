@@ -35,6 +35,18 @@ func (u *User) IsUserExist() bool {
 	}
 }
 
+func (u *User) GetUserFromDB(email *string, phn *string) {
+	db.Where("email = ? OR phone_number=?", email, phn).First(&u)
+}
+
 func (u *User) InsertToDb() {
 	db.Create(&u)
+}
+
+func UpdateAllTokens(signedAccessToken string, signedRefreshToken string, userId uint) {
+	db.Model(&User{}).Where("id=?", userId).Updates(User{AccessToken: &signedAccessToken, RefreshToken: &signedRefreshToken})
+}
+
+func UpdateImageUrl(url string, userId uint){
+	db.Model(&User{}).Where("id=?", userId).Updates(User{ImageUrl: &url})
 }

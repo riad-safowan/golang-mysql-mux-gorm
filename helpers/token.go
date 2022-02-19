@@ -54,29 +54,6 @@ func GenerateAllToken(email string, firstName string, lastName string, userType 
 
 }
 
-func UpdateAllTokens(signedAccessToken string, signedRefreshToken string, userId string) {
-	// var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
-	// // var updateObj primitive.D
-
-	// updated_at, _ := time.Parse(time.RFC3339, time.Now().Format(time.RFC3339))
-
-	// id, _ := primitive.ObjectIDFromHex(userId)
-	// _, err := userCollection.UpdateOne(
-	// 	ctx,
-	// 	bson.M{"_id": id},
-	// 	bson.D{
-	// 		{"$set", bson.D{{"access_token", signedAccessToken}, {"refresh_token", signedRefreshToken}, {"updated_at", updated_at}}},
-	// 	},
-	// )
-
-	// defer cancel()
-
-	// if err != nil {
-	// 	log.Panic(err)
-	// }
-
-}
-
 func ValidateToken(signedToken string) (claims *SignedDetails, msg string) {
 	token, err := jwt.ParseWithClaims(
 		signedToken,
