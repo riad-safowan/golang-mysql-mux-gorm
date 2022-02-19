@@ -10,10 +10,13 @@ import (
 
 func main() {
 	r := mux.NewRouter()
+
 	routes.RegisterAuthRoutes(r)
 	routes.RegisterPostRoutes(r)
 	routes.RegisterCommentRoutes(r)
-	http.Handle("/", r)
+	routes.RegisterImageUpload(r)
+
+	// http.Handle("/images/", http.StripPrefix("/images", http.FileServer(http.Dir("./images"))))
 	log.Fatal(http.ListenAndServe("192.168.31.215:9090", r))
 
 }

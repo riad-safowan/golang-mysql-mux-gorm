@@ -1,6 +1,8 @@
 package routes
 
 import (
+	// "net/http"
+
 	"github.com/gorilla/mux"
 	"github.com/riad-safowan/GOLang-SQL/controllers"
 	// "github.com/riad-safowan/GOLang-SQL/middleware"
@@ -32,4 +34,10 @@ var RegisterCommentRoutes = func(router *mux.Router) {
 	router.HandleFunc("/comments/{id}", controllers.GetCommentsByPostID).Methods("GET")
 	router.HandleFunc("/comment/{id}", controllers.UpdateCommentByID).Methods("PUT")
 	router.HandleFunc("/comment/{id}", controllers.DeleteCommentByID).Methods("DELETE")
+}
+
+var RegisterImageUpload = func (router *mux.Router)  {
+	router.HandleFunc("/upload/image", controllers.UploadImage).Methods("POST")
+	router.HandleFunc("/images/{name}", controllers.Image).Methods("GET")
+	// router.Handle("/images/", http.StripPrefix("/images/", http.FileServer(http.Dir("./images"))))
 }
