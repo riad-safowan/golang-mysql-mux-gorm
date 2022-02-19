@@ -10,6 +10,7 @@ import (
 
 func main() {
 	r := mux.NewRouter()
+	routes.RegisterAuthRoutes(r)
 	routes.RegisterPostRoutes(r)
 	routes.RegisterCommentRoutes(r)
 	http.Handle("/", r)
