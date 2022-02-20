@@ -9,8 +9,10 @@ import (
 )
 
 var RegisterAuthRoutes = func(router *mux.Router) {
-	router.HandleFunc("/users/signup", controllers.SignUp).Methods("POST")
-	router.HandleFunc("/users/login", controllers.Login).Methods("POST")
+	router.HandleFunc("/user/signup", controllers.SignUp).Methods("POST")
+	router.HandleFunc("/user/login", controllers.Login).Methods("POST")
+	router.HandleFunc("/user/refresh_token", controllers.RefreshToken).Methods("POST")
+
 }
 
 // var RegisterUserRoute = func(router *mux.Router) {

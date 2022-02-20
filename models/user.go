@@ -12,9 +12,8 @@ type User struct {
 	ImageUrl     *string `json:"image_url"`
 	Password     *string `json:"password" validate:"required,min=6,max=100"`
 	Email        *string `json:"email" validate:"email,required"`
-	PhoneNumber  *string `json:"phone_number" validate:"required"`
-	AccessToken  *string `json:"access_token" gorm:"size:1000"`
-	RefreshToken *string `json:"refresh_token"`
+	AccessToken  *string `json:"access_token" gorm:"size:300"`
+	RefreshToken *string `json:"refresh_token" gorm:"size:300"`
 	UserType     *string `json:"user_type" validate:"required,eq=ADMIN|eq=USER"`
 }
 
@@ -25,7 +24,7 @@ func init() {
 
 func (u *User) IsUserExist() bool {
 	var user = User{}
-	db.Where("email = ? OR phone_number=?", u.Email, u.PhoneNumber).First(&user)
+	db.Where("email = ?", u.Email).First(&user)
 	println(&user)
 	if user.ID > 0 {
 		println(user.FirstName)
@@ -35,8 +34,11 @@ func (u *User) IsUserExist() bool {
 	}
 }
 
-func (u *User) GetUserFromDB(email *string, phn *string) {
-	db.Where("email = ? OR phone_number=?", email, phn).First(&u)
+func (u *User) GetUserFromDB(email *string) {
+	db.Where("email = ? " ,email).First(&u)
+}
+func (u *User) GetUserByIdFromDB(uid int) {
+	db.Where("id = ?", uid).First(&u)
 }
 
 func (u *User) InsertToDb() {

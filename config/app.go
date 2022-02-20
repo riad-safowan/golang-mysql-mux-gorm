@@ -17,10 +17,11 @@ func Connect() {
 		panic(err)
 	}
 	fmt.Println("Connected to db")
+	d.LogMode(true)
 	db = d
 }
 
-func GetDB() *gorm.DB{
+func GetDB() *gorm.DB {
 	if db == nil {
 		Connect()
 	}
