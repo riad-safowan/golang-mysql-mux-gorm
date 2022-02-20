@@ -36,10 +36,11 @@ func Authenticate(next http.HandlerFunc) http.HandlerFunc {
 		}
 
 		if claims.Token_type == "access_token" {
-			context.Set(r, "claims", claims)
+			context.Set(r, "email", claims.Email)
 		} else if claims.Token_type == "refresh_token" {
 			http.Error(w, "invalid authorization token", http.StatusUnauthorized)
 		}
 
+		next(w, r)
 	}
 }

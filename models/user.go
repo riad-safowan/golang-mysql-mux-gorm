@@ -52,3 +52,12 @@ func UpdateAllTokens(signedAccessToken string, signedRefreshToken string, userId
 func UpdateImageUrl(url string, userId uint){
 	db.Model(&User{}).Where("id=?", userId).Updates(User{ImageUrl: &url})
 }
+
+func GetImageUrl(email string) string{
+	type Url struct{
+		ImageUrl string
+	}
+	var urlContainer Url
+	db.Model(&User{}).Where("email = ? " ,email).Scan(&urlContainer)
+	return urlContainer.ImageUrl
+}

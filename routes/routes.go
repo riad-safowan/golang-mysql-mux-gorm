@@ -41,6 +41,6 @@ var RegisterCommentRoutes = func(router *mux.Router) {
 var RegisterImageUpload = func(router *mux.Router) {
 	router.HandleFunc("/upload/image", controllers.UploadImage).Methods("POST")
 	router.HandleFunc("/upload/profileimage", middleware.Authenticate(controllers.UpdateProfilePicture)).Methods("POST")
-	router.HandleFunc("/images/{name}", controllers.Image).Methods("GET")
+	router.HandleFunc("/images/{name}", controllers.GetProfilePicture).Methods("GET")
 	// router.Handle("/images/", http.StripPrefix("/images/", http.FileServer(http.Dir("./images"))))
 }

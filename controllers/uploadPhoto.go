@@ -11,7 +11,7 @@ import (
 func UploadImage(w http.ResponseWriter, r *http.Request) {
 
 	r.ParseMultipartForm(10 << 20)
-	file, handler, err := r.FormFile("myFile")
+	file, handler, err := r.FormFile("image")
 	if err != nil {
 		println("Error retrieving file from form-data: ", err)
 		return
@@ -37,10 +37,10 @@ func UploadImage(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Successfully uploaded file as\n", temp.Name())
 
 }
-func Image(w http.ResponseWriter, r *http.Request) {
+func GetProfilePicture(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "image/jpeg")
 	vars := mux.Vars(r)
     key := vars["name"]
-	var url = "image-server/"+key
+	var url = "image-server/profile/"+key
 	http.ServeFile(w, r, url)
 }
