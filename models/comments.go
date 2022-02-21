@@ -6,10 +6,10 @@ import (
 )
 
 type Comment struct {
-	gorm.Model        //id, time
-	PostId     int    `gorm:"foreign_key"json:"post_id"`
+	gorm.Model     //id, time
+	PostId     int `gorm:"foreign_key"json:"post_id"`
+	UserId     int `json:"user_id"`
 	Text       string `gorm:""json:"text"`
-	Writer     string `json:"writer"`
 }
 
 func init() {

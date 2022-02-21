@@ -9,9 +9,8 @@ var db *gorm.DB
 
 type Post struct {
 	gorm.Model
-	Text   string `gorm:""json:"text"`
-	Writer string `json:"writer"`
-	//id, time
+	Text   string `json:"text"validate:"required"`
+	UserId int    `json:"user_id"validate:"required"`
 }
 
 func init() {

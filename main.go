@@ -6,6 +6,7 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/riad-safowan/GOLang-SQL/routes"
+	"github.com/riad-safowan/GOLang-SQL/utils"
 )
 
 func main() {
@@ -17,6 +18,6 @@ func main() {
 	routes.RegisterImageUpload(r)
 
 	// http.Handle("/images/", http.StripPrefix("/images", http.FileServer(http.Dir("./images"))))
-	log.Fatal(http.ListenAndServe("192.168.31.215:9090", r))
+	log.Fatal(http.ListenAndServe(utils.BASEURL, r))
 
 }
