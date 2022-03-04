@@ -9,6 +9,7 @@ type Comment struct {
 	gorm.Model     //id, time
 	PostId     int `gorm:"foreign_key"json:"post_id"`
 	UserId     int `json:"user_id"`
+	UserName     int `json:"user_name"`
 	Text       string `gorm:""json:"text"`
 }
 

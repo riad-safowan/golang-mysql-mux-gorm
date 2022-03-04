@@ -17,6 +17,7 @@ import (
 )
 
 func GetPosts(w http.ResponseWriter, r *http.Request) {
+	myUserId := context.Get(r, "user_id").(int)
 	posts := models.GetAllPosts()
 
 	responselist := []response.Post{}
@@ -24,7 +25,8 @@ func GetPosts(w http.ResponseWriter, r *http.Request) {
 		user := models.User{}
 		user.GetUserByIdFromDB(v.UserId)
 		name := *user.FirstName + " " + *user.LastName
-		responselist = append(responselist, response.Post{ID: int(v.ID), Text: v.Text, UserId: v.UserId, UserName: name, UserImageUrl: *user.ImageUrl, CreatedAt: v.CreatedAt, ImageUrl: v.ImageUrl})
+		isliked:=models.IsLiked(myUserId, int(v.ID))
+		responselist = append(responselist, response.Post{ID: int(v.ID), Text: v.Text, UserId: v.UserId, UserName: name, UserImageUrl: *user.ImageUrl, CreatedAt: v.CreatedAt, ImageUrl: v.ImageUrl, Likes: v.Likes, Comments: v.Comments, Isliked: isliked})
 	}
 
 	var baseResponse = &models.BaseResponse{}
@@ -59,7 +61,7 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 	post.UserId = context.Get(r, "user_id").(int)
 
 	post.CreatePost()
-	
+
 	var baseResponse = &models.BaseResponse{}
 	baseResponse.Data = post
 	baseResponse.Status = 200
@@ -134,4 +136,23 @@ func GetPostImage(w http.ResponseWriter, r *http.Request) {
 	key := vars["name"]
 	var url = "image-server/post/" + key
 	http.ServeFile(w, r, url)
+}
+
+func Like(w http.ResponseWriter, r *http.Request) {
+	userId := context.Get(r, "user_id").(int)
+	vars := mux.Vars(r)
+	id := vars["id"]
+	postId, err := strconv.ParseInt(id, 0, 0)
+	if err != nil {
+		fmt.Println("error while parsing")
+	}
+	like := models.Like{PostId: int(postId), UserId: userId, UserName: models.GetUserNameById(userId)}
+	l := like.CreateLike()
+	if l.IsLiked {
+		models.IncrementLikes(int(postId))
+	} else {
+		models.DecrementLikes(int(postId))
+	}
+
+	GetPostByID(w, r)
 }

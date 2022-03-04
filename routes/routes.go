@@ -24,10 +24,12 @@ var RegisterAuthRoutes = func(router *mux.Router) {
 var RegisterPostRoutes = func(router *mux.Router) {
 	// router.HandleFunc("/post", controllers.CreatePost).Methods("POST")
 	router.HandleFunc("/post", middleware.Authenticate(controllers.CreatePost)).Methods("POST")
-	router.HandleFunc("/posts", controllers.GetPosts).Methods("GET")
-	router.HandleFunc("/post/{id}", controllers.GetPostByID).Methods("GET")
-	router.HandleFunc("/post/{id}", controllers.UpdatePostByID).Methods("PUT")
-	router.HandleFunc("/post/{id}", controllers.DeletePostByID).Methods("DELETE")
+	router.HandleFunc("/posts", middleware.Authenticate(controllers.GetPosts)).Methods("GET")
+	router.HandleFunc("/post/{id}", middleware.Authenticate(controllers.GetPostByID)).Methods("GET")
+	router.HandleFunc("/post/{id}", middleware.Authenticate(controllers.UpdatePostByID)).Methods("PUT")
+	router.HandleFunc("/post/{id}", middleware.Authenticate(controllers.DeletePostByID)).Methods("DELETE")
+	router.HandleFunc("/post/like/{id}", middleware.Authenticate(controllers.Like)).Methods("PUT")
+
 }
 
 var RegisterCommentRoutes = func(router *mux.Router) {

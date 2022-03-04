@@ -10,4 +10,7 @@ type Post struct {
 	UserImageUrl string    `json:"user_image_url"`
 	CreatedAt    time.Time `json:"created_at"`
 	ImageUrl     string    `json:"image_url"`
+	Likes        int       `json:"likes"`
+	Comments     int       `json:"comments"`
+	Isliked      bool      `json: "is_liked"`
 }

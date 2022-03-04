@@ -11,7 +11,9 @@ type Post struct {
 	gorm.Model
 	Text     string `json:"text"validate:"required"`
 	UserId   int    `json:"user_id"`
-	ImageUrl string `json:"image_url`
+	ImageUrl string `json:"image_url"`
+	Likes    int    `json:"likes"`
+	Comments int    `json:"comments"`
 }
 
 func init() {
@@ -47,4 +49,15 @@ func UpdatePostImageUrl(id int, url string) {
 	db.Model(&Post{}).Where("id=?", id).Updates(Post{ImageUrl: url})
 }
 
-
+func IncrementLikes(id int) {
+	db.Exec("UPDATE posts SET likes = likes + 1 WHERE id = ?", id)
+}
+func IncrementComments(id int) {
+	db.Exec("UPDATE posts SET comments = comments + 1 WHERE id = ?", id)
+}
+func DecrementLikes(id int) {
+	db.Exec("UPDATE posts SET likes = likes - 1 WHERE id = ?", id)
+}
+func DecrementComments(id int) {
+	db.Exec("UPDATE posts SET comments = comments - 1 WHERE id = ?", id)
+}

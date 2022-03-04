@@ -35,10 +35,15 @@ func (u *User) IsUserExist() bool {
 }
 
 func (u *User) GetUserFromDB(email *string) {
-	db.Where("email = ? " ,email).First(&u)
+	db.Where("email = ? ", email).First(&u)
 }
 func (u *User) GetUserByIdFromDB(uid int) {
 	db.Where("id = ?", uid).First(&u)
+}
+func GetUserNameById(uid int) string {
+	var u = User{}
+	db.Select("first_name , last_name").Where("id = ?", uid).First(&u)
+	return *u.FirstName + " " + *u.LastName
 }
 
 func (u *User) InsertToDb() {
@@ -49,15 +54,15 @@ func UpdateAllTokens(signedAccessToken string, signedRefreshToken string, userId
 	db.Model(&User{}).Where("id=?", userId).Updates(User{AccessToken: &signedAccessToken, RefreshToken: &signedRefreshToken})
 }
 
-func UpdateImageUrl(url string, userId uint){
+func UpdateImageUrl(url string, userId uint) {
 	db.Model(&User{}).Where("id=?", userId).Updates(User{ImageUrl: &url})
 }
 
-func GetImageUrl(email string) string{
-	type Url struct{
+func GetImageUrl(email string) string {
+	type Url struct {
 		ImageUrl string
 	}
 	var urlContainer Url
-	db.Model(&User{}).Where("email = ? " ,email).Scan(&urlContainer)
+	db.Model(&User{}).Where("email = ? ", email).Scan(&urlContainer)
 	return urlContainer.ImageUrl
 }
