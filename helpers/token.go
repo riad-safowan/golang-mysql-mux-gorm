@@ -20,12 +20,13 @@ type SignedDetails struct {
 	jwt.StandardClaims
 }
 
-func GenerateAllToken(email string, firstName string, lastName string, userType string) (signedAccessToken string, signedRefreshToken string, err error) {
+func GenerateAllToken(userId int,email string, firstName string, lastName string, userType string) (signedAccessToken string, signedRefreshToken string, err error) {
 	accessClaims := &SignedDetails{
 		Email:      email,
 		First_name: firstName,
 		Last_name:  lastName,
 		User_type:  userType,
+		Uid: userId,
 		Token_type: "access_token",
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: time.Now().Local().Add(time.Hour * time.Duration(30)).Unix(),

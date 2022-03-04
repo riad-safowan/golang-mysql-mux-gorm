@@ -9,8 +9,9 @@ var db *gorm.DB
 
 type Post struct {
 	gorm.Model
-	Text   string `json:"text"validate:"required"`
-	UserId int    `json:"user_id"validate:"required"`
+	Text     string `json:"text"validate:"required"`
+	UserId   int    `json:"user_id"`
+	ImageUrl string `json:"image_url`
 }
 
 func init() {
@@ -26,7 +27,7 @@ func (b *Post) CreatePost() *Post {
 
 func GetAllPosts() []Post {
 	var Posts []Post
-	db.Find(&Posts)
+	db.Order("updated_at desc").Find(&Posts)
 	return Posts
 }
 
@@ -41,3 +42,9 @@ func DeletePostById(Id int64) Post {
 	db.Where("ID=?", Id).Delete(post)
 	return post
 }
+
+func UpdatePostImageUrl(id int, url string) {
+	db.Model(&Post{}).Where("id=?", id).Updates(Post{ImageUrl: url})
+}
+
+

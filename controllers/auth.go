@@ -54,7 +54,7 @@ func SignUp(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	accessToken, refreshToken, _ := helpers.GenerateAllToken(*user.Email, *user.FirstName, *user.LastName, *user.UserType)
+	accessToken, refreshToken, _ := helpers.GenerateAllToken(int(user.ID), *user.Email, *user.FirstName, *user.LastName, *user.UserType)
 	user.AccessToken = &accessToken
 	user.RefreshToken = &refreshToken
 	*user.Password = HashPassword(*user.Password)
@@ -91,7 +91,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	accessToken, refreshToken, _ := helpers.GenerateAllToken(*foundUser.Email, *foundUser.FirstName, *foundUser.LastName, *foundUser.UserType)
+	accessToken, refreshToken, _ := helpers.GenerateAllToken(int(foundUser.ID), *foundUser.Email, *foundUser.FirstName, *foundUser.LastName, *foundUser.UserType)
 
 	models.UpdateAllTokens(accessToken, refreshToken, foundUser.ID)
 
@@ -148,7 +148,7 @@ func RefreshToken(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	accessToken, refreshToken, _ := helpers.GenerateAllToken(*foundUser.Email, *foundUser.FirstName, *foundUser.LastName, *foundUser.UserType)
+	accessToken, refreshToken, _ := helpers.GenerateAllToken(int(foundUser.ID), *foundUser.Email, *foundUser.FirstName, *foundUser.LastName, *foundUser.UserType)
 
 	models.UpdateAllTokens(accessToken, refreshToken, foundUser.ID)
 

@@ -22,7 +22,8 @@ var RegisterAuthRoutes = func(router *mux.Router) {
 // }
 
 var RegisterPostRoutes = func(router *mux.Router) {
-	router.HandleFunc("/post", controllers.CreatePost).Methods("POST")
+	// router.HandleFunc("/post", controllers.CreatePost).Methods("POST")
+	router.HandleFunc("/post", middleware.Authenticate(controllers.CreatePost)).Methods("POST")
 	router.HandleFunc("/posts", controllers.GetPosts).Methods("GET")
 	router.HandleFunc("/post/{id}", controllers.GetPostByID).Methods("GET")
 	router.HandleFunc("/post/{id}", controllers.UpdatePostByID).Methods("PUT")
@@ -41,6 +42,8 @@ var RegisterCommentRoutes = func(router *mux.Router) {
 var RegisterImageUpload = func(router *mux.Router) {
 	router.HandleFunc("/upload/image", controllers.UploadImage).Methods("POST")
 	router.HandleFunc("/upload/profileimage", middleware.Authenticate(controllers.UpdateProfilePicture)).Methods("POST")
+	router.HandleFunc("/upload/postimage/{postId}", middleware.Authenticate(controllers.UploadPostImage)).Methods("POST")
 	router.HandleFunc("/images/{name}", controllers.GetProfilePicture).Methods("GET")
+	router.HandleFunc("/images/post/{name}", controllers.GetPostImage).Methods("GET")
 	// router.Handle("/images/", http.StripPrefix("/images/", http.FileServer(http.Dir("./images"))))
 }
