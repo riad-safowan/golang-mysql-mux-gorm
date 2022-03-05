@@ -33,10 +33,10 @@ var RegisterPostRoutes = func(router *mux.Router) {
 }
 
 var RegisterCommentRoutes = func(router *mux.Router) {
-	router.HandleFunc("/comment", controllers.CreateComment).Methods("POST")
+	router.HandleFunc("/comment/{postId}", middleware.Authenticate(controllers.CreateComment)).Methods("POST")
 	router.HandleFunc("/comments", controllers.GetComments).Methods("GET")
 	router.HandleFunc("/comment/{id}", controllers.GetCommentByID).Methods("GET")
-	router.HandleFunc("/comments/{id}", controllers.GetCommentsByPostID).Methods("GET")
+	router.HandleFunc("/comments/{postId}", controllers.GetCommentsByPostID).Methods("GET")
 	router.HandleFunc("/comment/{id}", controllers.UpdateCommentByID).Methods("PUT")
 	router.HandleFunc("/comment/{id}", controllers.DeleteCommentByID).Methods("DELETE")
 }

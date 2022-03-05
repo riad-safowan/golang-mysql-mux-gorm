@@ -34,7 +34,6 @@ func VerifyPassword(userPass string, providedPass string) (passIsValid bool, msg
 	} else {
 		return true, ""
 	}
-
 }
 
 func SignUp(w http.ResponseWriter, r *http.Request) {
