@@ -28,7 +28,7 @@ var RegisterPostRoutes = func(router *mux.Router) {
 	router.HandleFunc("/post/{id}", middleware.Authenticate(controllers.GetPostByID)).Methods("GET")
 	router.HandleFunc("/post/{id}", middleware.Authenticate(controllers.UpdatePostByID)).Methods("PUT")
 	router.HandleFunc("/post/{id}", middleware.Authenticate(controllers.DeletePostByID)).Methods("DELETE")
-	router.HandleFunc("/post/like/{id}", middleware.Authenticate(controllers.Like)).Methods("PUT")
+	router.HandleFunc("/post/like/{id}", middleware.Authenticate(controllers.Like)).Methods("GET")
 
 }
 

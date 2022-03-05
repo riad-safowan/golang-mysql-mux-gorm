@@ -53,11 +53,11 @@ func SignUp(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "The email already exist", http.StatusBadRequest)
 		return
 	}
-
+	*user.Password = HashPassword(*user.Password)
+	user.InsertToDb()
 	accessToken, refreshToken, _ := helpers.GenerateAllToken(int(user.ID), *user.Email, *user.FirstName, *user.LastName, *user.UserType)
 	user.AccessToken = &accessToken
 	user.RefreshToken = &refreshToken
-	*user.Password = HashPassword(*user.Password)
 
 	user.InsertToDb()
 	var baseResponse = &models.BaseResponse{}

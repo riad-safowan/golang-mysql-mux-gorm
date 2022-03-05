@@ -21,12 +21,12 @@ func GetPosts(w http.ResponseWriter, r *http.Request) {
 	posts := models.GetAllPosts()
 
 	responselist := []response.Post{}
-	for _, v := range posts {
+	for _, post := range posts {
 		user := models.User{}
-		user.GetUserByIdFromDB(v.UserId)
+		user.GetUserByIdFromDB(post.UserId)
 		name := *user.FirstName + " " + *user.LastName
-		isliked:=models.IsLiked(myUserId, int(v.ID))
-		responselist = append(responselist, response.Post{ID: int(v.ID), Text: v.Text, UserId: v.UserId, UserName: name, UserImageUrl: *user.ImageUrl, CreatedAt: v.CreatedAt, ImageUrl: v.ImageUrl, Likes: v.Likes, Comments: v.Comments, Isliked: isliked})
+		isliked:=models.IsLiked(myUserId, int(post.ID))
+		responselist = append(responselist, response.Post{ID: int(post.ID), Text: post.Text, UserId: post.UserId, UserName: name, UserImageUrl: *user.ImageUrl, CreatedAt: post.CreatedAt, ImageUrl: post.ImageUrl, Likes: post.Likes, Comments: post.Comments, Isliked: isliked})
 	}
 
 	var baseResponse = &models.BaseResponse{}
@@ -62,8 +62,15 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 
 	post.CreatePost()
 
+	user := models.User{}
+		user.GetUserByIdFromDB(post.UserId)
+		name := *user.FirstName + " " + *user.LastName
+		myUserId := context.Get(r, "user_id").(int)
+		isliked:=models.IsLiked(myUserId, int(post.ID))
+		response := response.Post{ID: int(post.ID), Text: post.Text, UserId: post.UserId, UserName: name, UserImageUrl: *user.ImageUrl, CreatedAt: post.CreatedAt, ImageUrl: post.ImageUrl, Likes: post.Likes, Comments: post.Comments, Isliked: isliked}
+	
 	var baseResponse = &models.BaseResponse{}
-	baseResponse.Data = post
+	baseResponse.Data = response
 	baseResponse.Status = 200
 	baseResponse.Message = "success"
 
@@ -120,7 +127,7 @@ func UploadPostImage(w http.ResponseWriter, r *http.Request) {
 	models.UpdatePostImageUrl(int(postId), ImageUrl)
 
 	var baseResponse = &models.BaseResponse{}
-	baseResponse.Data = response.ImageResponse{ImageUrl: ImageUrl}
+	baseResponse.Data = response.Post{ImageUrl: ImageUrl}
 	baseResponse.Status = 200
 	baseResponse.Message = "success"
 
