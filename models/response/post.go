@@ -12,5 +12,5 @@ type Post struct {
 	ImageUrl     string    `json:"image_url"`
 	Likes        int       `json:"likes"`
 	Comments     int       `json:"comments"`
-	Isliked      bool      `json:"is_liked"`
+	IsLiked      bool      `json:"is_liked"`
 }

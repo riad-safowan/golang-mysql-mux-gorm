@@ -18,7 +18,7 @@ func init() {
 }
 
 func (c *Comment) CreateComment() *Comment {
-	db.NewRecord(c)
+	// db.NewRecord(c)
 	db.Create(&c)
 	return c
 }

@@ -46,7 +46,7 @@ func GetCommentsByPostID(w http.ResponseWriter, r *http.Request) {
 		user := models.User{}
 		user.GetUserByIdFromDB(comment.UserId)
 		name := *user.FirstName + " " + *user.LastName
-		responselist = append(responselist, response.Comment{Id: int(comment.ID), Text: comment.Text, UserId: int(user.ID), PostId: comment.PostId, UserName: name, UserImgUrl: *user.ImageUrl})
+		responselist = append(responselist, response.Comment{Id: int(comment.ID), Text: comment.Text, UserId: int(user.ID), PostId: comment.PostId, UserName: name, UserImgUrl: user.ImageUrl})
 	}
 
 	var baseResponse = &models.BaseResponse{}

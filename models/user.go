@@ -9,7 +9,7 @@ type User struct {
 	gorm.Model
 	FirstName    *string `json:"first_name" validate:"required,min=2,max=100"`
 	LastName     *string `json:"last_name" validate:"required"`
-	ImageUrl     *string `json:"image_url"`
+	ImageUrl      string `json:"image_url"`
 	Password     *string `json:"password" validate:"required,min=6,max=100"`
 	Email        *string `json:"email" validate:"email,required"`
 	AccessToken  *string `json:"access_token" gorm:"size:300"`
@@ -55,7 +55,7 @@ func UpdateAllTokens(signedAccessToken string, signedRefreshToken string, userId
 }
 
 func UpdateImageUrl(url string, userId uint) {
-	db.Model(&User{}).Where("id=?", userId).Updates(User{ImageUrl: &url})
+	db.Model(&User{}).Where("id=?", userId).Updates(User{ImageUrl: url})
 }
 
 func GetImageUrl(email string) string {

@@ -25,8 +25,8 @@ func GetPosts(w http.ResponseWriter, r *http.Request) {
 		user := models.User{}
 		user.GetUserByIdFromDB(post.UserId)
 		name := *user.FirstName + " " + *user.LastName
-		isliked:=models.IsLiked(myUserId, int(post.ID))
-		responselist = append(responselist, response.Post{ID: int(post.ID), Text: post.Text, UserId: post.UserId, UserName: name, UserImageUrl: *user.ImageUrl, CreatedAt: post.CreatedAt, ImageUrl: post.ImageUrl, Likes: post.Likes, Comments: post.Comments, Isliked: isliked})
+		isLiked := models.IsLiked(myUserId, int(post.ID))
+		responselist = append(responselist, response.Post{ID: int(post.ID), Text: post.Text, UserId: post.UserId, UserName: name, UserImageUrl: user.ImageUrl, CreatedAt: post.CreatedAt, ImageUrl: post.ImageUrl, Likes: post.Likes, Comments: post.Comments, IsLiked: isLiked})
 	}
 
 	var baseResponse = &models.BaseResponse{}
@@ -63,12 +63,10 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 	post.CreatePost()
 
 	user := models.User{}
-		user.GetUserByIdFromDB(post.UserId)
-		name := *user.FirstName + " " + *user.LastName
-		myUserId := context.Get(r, "user_id").(int)
-		isliked:=models.IsLiked(myUserId, int(post.ID))
-		response := response.Post{ID: int(post.ID), Text: post.Text, UserId: post.UserId, UserName: name, UserImageUrl: *user.ImageUrl, CreatedAt: post.CreatedAt, ImageUrl: post.ImageUrl, Likes: post.Likes, Comments: post.Comments, Isliked: isliked}
-	
+	user.GetUserByIdFromDB(post.UserId)
+	name := *user.FirstName + " " + *user.LastName
+	response := response.Post{ID: int(post.ID), Text: post.Text, UserId: post.UserId, UserName: name, UserImageUrl: user.ImageUrl, CreatedAt: post.CreatedAt, ImageUrl: post.ImageUrl, Likes: post.Likes, Comments: post.Comments, IsLiked: false}
+
 	var baseResponse = &models.BaseResponse{}
 	baseResponse.Data = response
 	baseResponse.Status = 200

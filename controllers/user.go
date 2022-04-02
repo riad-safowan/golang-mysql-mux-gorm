@@ -53,7 +53,7 @@ func UpdateProfilePicture(w http.ResponseWriter, r *http.Request) {
 
 	name = strings.Split(temp.Name(), "\\")[1]
 	var url = "http://"+utils.BASEURL + "/images/" + name
-	user.ImageUrl = &url
+	user.ImageUrl = url
 
 	models.UpdateImageUrl(url, user.ID)
 

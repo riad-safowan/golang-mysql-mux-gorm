@@ -24,7 +24,7 @@ func (c *Like) CreateLike() *Like {
 	// result := db.Exec("UPDATE likes SET is_Liked = !is_liked WHERE user_id = ? AND post_id = ?", c.UserId, c.PostId)
 	if result.RowsAffected == 0 {
 		c.IsLiked = true
-		db.NewRecord(c)
+		// db.NewRecord(c)
 		db.Create(&c)
 	} else {
 		// result=db.Model(&Like{}).Updates(Like{IsLiked: !like.IsLiked}).Where("user_id=? AND post_id=?", c.UserId, c.PostId)
@@ -63,7 +63,7 @@ func DeleteLikeByIdID(UserID int64, PostId int) Like {
 	return Like
 }
 func IsLiked(UserID int, PostId int) bool {
-	var liked = Like{}
+	var liked = Like{IsLiked: false}
 	db.Select("is_liked").Where("user_id=? AND post_id=?", UserID, PostId).First(&liked)
 	return liked.IsLiked
 }

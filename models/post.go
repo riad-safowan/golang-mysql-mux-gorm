@@ -1,7 +1,8 @@
 package models
 
 import (
-	"github.com/jinzhu/gorm"
+	// "github.com/jinzhu/gorm"
+	"gorm.io/gorm"
 	"github.com/riad-safowan/GOLang-SQL/config"
 )
 
@@ -22,7 +23,7 @@ func init() {
 }
 
 func (b *Post) CreatePost() *Post {
-	db.NewRecord(b)
+	// db.NewRecord(b)
 	db.Create(&b)
 	return b
 }
