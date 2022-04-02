@@ -15,7 +15,7 @@ var (
 
 func Connect() {
 	// d, err := gorm.Open("mysql", "root:123456@tcp(127.0.0.1:3306)/troikasoft?charset=utf8mb4&parseTime=True&loc=Local")
-	dsn := "host=ec2-54-173-77-184.compute-1.amazonaws.com user=mrzdwtxhakntkt password=ee0ba5528140c65ea1e54a8d3fa5eb54fafe27c7e4873e8a57340392f46aac16 dbname=dbqpg8ei3ic0qi port=5432"
+	dsn := "host=ec2-3-222-204-187.compute-1.amazonaws.com user=qwunujnjqzytpj password=cbb3ed7b6e5c6d736cc8a04b7266f478270550edc38849aacdd8493ecd398190 dbname=ddsnsmg54h89a9 port=5432"
 	d, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic(err)
